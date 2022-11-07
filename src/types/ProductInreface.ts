@@ -11,7 +11,7 @@ export interface IProduct {
     description: string;
     discountPercentage: number;
     id: number;
-    images: [];
+    images: [string, ...string[]];
     price: number;
     rating: number;
     stock: number;

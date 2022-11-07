@@ -1,9 +1,6 @@
-
-
 .containers {
     @apply container mx-auto w-full max-w-2xl;
 }
-
-.wrapper {
-    @apply grid grid-cols-2 gap-10
+.title {
+    @apply text-center text-3xl font-semibold mt-10;
 }

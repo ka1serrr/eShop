@@ -1,5 +1,5 @@
 import axios from "axios";
-import {IProductsResponse} from "../types/productInreface";
+import {IProductsResponse} from "../types/ProductInreface";
 
 axios.defaults.baseURL = 'https://dummyjson.com'
 

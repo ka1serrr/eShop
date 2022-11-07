@@ -1,51 +1,38 @@
 import React, {FC, useEffect, useState} from 'react';
 import styles from './home.module.scss';
 import {ProductService} from "../../services/ProductService";
+import {useQuery} from "@tanstack/react-query";
+import {ProductItem} from "../../UI/product-item/ProductItem";
+import {Layout} from "../../UI/layout/Layout";
 
 
 export const Home: FC = () => {
-    const [products, setProducts] = useState([])
-    const [error, setError] = useState('')
-    const [isLoading, setIsLoading] = useState(true)
 
-    // useEffect(() => {
-    //     ProductService.getProducts()
-    //         .then(data => setProducts(data.products))
-    //         .catch(error => setError(error))
-    //         .finally(() => setIsLoading(false))
-    // }, [])
+    const {data:products, isError, isLoading} = useQuery(['products'], () => ProductService.getProducts(), {
+        select: ({products}) => products
+    })
 
-    useEffect(() => {
-        const fetch = async () => {
-            try {
-                const data = await ProductService.getProducts()
-                console.log(data)
-                setProducts(products)
-            }
-            catch (error: any){
-                setError(error)
-            }
-            finally {
-                setIsLoading(false)
-            }
-        }
-
-        fetch()
-    }, [])
 
     return (
-        <div>
-            {error && <div className='text-red-500'>{error}</div>}
-            {isLoading ?
-                <div className='text-blue-400 text-2xl'>Loading...</div>  :
+        <Layout title='Shop the collection'>
+            <div className={styles.containers}>
 
-                products.length ? products.map(product => (
-                <div key={product.id}>
-                    {/*@ts-ignore*/}
-                    {product.title}
-                </div>)) : <div >Products not found </div>
-            }
-        </div>
+                {isError && <div className='text-red-500'>{isError}</div>}
+                {isLoading ?(
+                    <div className='text-blue-400 text-2xl'>Loading...</div>
+
+                    ): products?.length ? (
+                        <div className={styles.wrapper}>
+                            {products?.map(product => (
+                            <ProductItem
+                                product={product}
+                                key={product.id}/>
+                            ))}
+                        </div>
+                        ) : <div >Products not found </div>
+                }
+            </div>
+        </Layout>
     );
 };
 
