@@ -1,0 +1,10 @@
+.containers {
+    @apply container mx-auto w-full max-w-2xl;
+}
+
+.title {
+    @apply text-left text-4xl mt-4
+}
+.price {
+    @apply text-lg
+}
